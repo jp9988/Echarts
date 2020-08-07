@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据可视化</title>
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+
+<body>
+    <!-- 头部的盒子 -->
+    <header>
+        <h1>数据可视化-ECharts</h1>
+        <div class="showTime"></div>
+    </header>
+
+    <!-- 页面主体部分 -->
+    <section class="mainbox">
+        <div class="column">
+            <div class="panel bar">
+                <h2>柱形图-就业行业</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel line">
+                <h2>折线图-人员变化<a href="javascript:;">2020年</a><a href="javascript:;">2021年</a></h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel pie">
+                <h2>饼图-年龄分布</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+
+        <div class="column">
+            <!-- 中间数字制作 -->
+            <div class="no">
+                <div class="no-hd">
+                    <ul>
+                        <li id="webNum">webNumber</li>
+                        <li id="totalNum">totalNumber</li>
+                    </ul>
+                </div>
+                <div class="no-bd">
+                    <ul>
+                        <li id="webTitle">webTitle</li>
+                        <li id="totalTitle">totalTitle</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 地图模块 -->
+            <div class="map">
+                <div class="map1"></div>
+                <div class="map2"></div>
+                <div class="map3"></div>
+                <div class="map-chart"></div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="panel bar1">
+                <h2>柱形图-技能掌握</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel line1">
+                <h2>折线图-播放量</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+            <div class="panel pie1">
+                <h2>柱形图-地区分布</h2>
+                <div class="chart"></div>
+                <div class="panel-footer"></div>
+            </div>
+        </div>
+    </section>
+
+</body>
+<script src="js/flexible.js"></script>
+<script src="./node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./node_modules/axios/dist/axios.min.js"></script>
+<script>
+    var t = null;
+    var webTitle
+    t = setTimeout(time, 1000); //開始运行
+    function time() {
+        clearTimeout(t); //清除定时器
+        dt = new Date();
+        var y = dt.getFullYear();
+        var mt = (dt.getMonth() + 1).toString().padStart(2, "0");
+        var day = dt.getDate().toString().padStart(2, "0");
+        var h = dt.getHours().toString().padStart(2, "0"); //获取时
+        var m = dt.getMinutes().toString().padStart(2, "0"); //获取分
+        var s = dt.getSeconds().toString().padStart(2, "0"); //获取秒
+        document.querySelector(".showTime").innerHTML = '当前时间：' + y + "年" + mt + "月" + day + "日" + "-" + h + "时" + m + "分" + s + "秒";
+        t = setTimeout(time, 1000); //设定定时器，循环运行     
+    }
+    axios.get('https://www.fastmock.site/mock/796d2c8012df7d33cb9a0e16d7875b19/echarts/number').then(res => {
+        document.getElementById('webNum').innerHTML = res.data.result.webNum[1].number
+        document.getElementById('webTitle').innerHTML = res.data.result.webNum[0].title
+        document.getElementById('totalTitle').innerHTML = res.data.result.totalNum[0].title
+        document.getElementById('totalNum').innerHTML = res.data.result.totalNum[1].number
+    }).catch(err => {
+        console.log('请求失败', err)
+    })
+</script>
+<script src="./node_modules/echarts/dist/echarts.min.js"></script>
+<script src="js/china.js"></script>
+<script src="js/index.js"></script>
+
+</html>
